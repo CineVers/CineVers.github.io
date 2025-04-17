@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Consistent Keyframe Synthesis for Cinematic Storytelling</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="style/glide.core.min.css">
+    <link rel="stylesheet" href="style/glide.theme.min.css">
+    <link rel="stylesheet" href="style/glide-custom.css">
+  </head>
+  <body onload="selectExampleSec1('0');selectComparisonSec2('0');selectComparisonSec3('0')">
+    <div class="container" id="container">
+      <div class="page page1">
+        <h1 style="text-align: center">CineVerse: Consistent Keyframe Synthesis for Cinematic Scene Composition</h1>
+        <h3 style="text-align: center"><b>Under submission</b></h3>
+        <br/>
+      </div>
+    </div>
+    
+  
+    
+    <div class="container2">
+      <h2 style="text-align: center;">Abstract</h2>
+      <p style="text-align: justify;">We present CineVerse, a novel framework for the task of cinematic scene composition. Similar to traditional multishot generation, our task emphasizes the need for consistency and continuity across frames. However, our task also.focuses on addressing challenges inherent to filmmaking, such as multiple characters, complex interactions, and visual cinematic effects. In order to learn to generate such content, we first create the CineVerse dataset. We use this dataset to train our proposed two-stage approach. First, we prompt a large language model (LLM) with task-specific instructions to take in a high-level scene description and generate a detailed plan for the overall setting and charac ters, as well as the individual shots. Then, we fine-tune a text-to-image generation model to synthesize high-quality visual keyframes. Experimental results demonstrate that CineVerse yields promising improvements in generating visually coherent and contextually rich movie scenes, paving the way for further exploration in cinematic video synthesis. </p>
+      <h2 style="margin-top: 40px;">Teaser</h2>
+   
+      <img src="website_multi_shot/jia_bin_teaser.png" style="width: 100%">
+      <p>
+        
+        Given a simple scene description, we prompt a pre-trained language model to generate the
+setting, characters with unique appearances, and detailed shot descriptions with explicit shot sizes. We then use this detailed scene plan to synthesize consistent keyframes using our fine-tuned text-to-image model adapted from  <a href="https://arxiv.org/pdf/2410.23775">IC-LoRA</a>  specifically for our cinematic scene composition task. Compared to the baseline IC-LoRA, our results showcase improved text-image alignment, consistency, and continuity
+     </p>
+
+
+      <h2 style="margin-top: 40px;">Overview</h2>
+      <img src="website_multi_shot/method.png" style="width: 100%">
+      <p>
+        Method overview. In the stage 1, given the scene description as input, we leverage an LLM for in-context planning to produce a detailed script. This script consists of 1) Setting: A background description of the scene, 2) Characters: Individual characters with their unique appearances, and 3) Shot descriptions: The context and actions of the characters along with specified camera shots. In Stage 2, we use the generated script to synthesize multiple keyframes using text-to-image models fine-tuned on the proposed CineVerse dataset
+      </p>
+
+      <h2 style="margin-top: 40px;">Data processing</h2>
+      <img src="website_multi_shot/data_process.png" style="width: 100%">
+      <p>
+        We use a pre-trained Vision-Language Model to extract the setting description, shot details, and character appearances.
+      </p>
+      
+      
+    </div>
+
+    <!-- last overview -->
+   
+    <div class="container" id="comparison-video">
+
+      <!-- Four baselines -->
+      <h2>A. Comparison with other baselines (multi-character). <button onclick="toggleCollapse('comparison-sec1')" style="background: none; border: none; cursor: pointer;" title="Click to collapse"><i class="fa fa-chevron-down" id="collapse-icon-comparison-sec1"></i></button></h2>
+      <div id="comparison-sec1" style="display: block;">
+        <div style="display: flex; align-items: center;">
+          <p style="margin-right: 10px; margin-bottom: 0px; margin-top: 0px;"><b>Example: </b></p>
+          <div class="btn-group btn-group-comp-video">
+            <select onchange="selectExampleSec1(this.value)">
+              <option value="0">Example 1</option>
+              <option value="1">Example 2</option>
+              <option value="2">Example 3</option>
+              <option value="3">Example 4</option>
+              <option value="4">Example 5</option>
+              <option value="5">Example 6</option>
+              <option value="6">Example 7</option>
+              <option value="7">Example 8</option>
+              <option value="8">Example 9</option>
+              <option value="9">Example 10</option>
+              <option value="10">Example 11</option>
+              <option value="11">Example 12</option>
+            </select>
+          </div>
+        </div>
+        <p><b>Compared method</b></p>
+        <div class="btn-group btn-group-comp">
+          <button class='btn-comp-method btn-sec1'  onclick="selectComparedMethod('1prompt1story')">One-Prompt-One-Story (ICLR 2025)</button>
+          <button class='btn-comp-method btn-sec1'  onclick="selectComparedMethod('consistory')">ConsiStory (TOG 2025)</button>
+          <button class='btn-comp-method btn-sec1'  onclick="selectComparedMethod('storydiff')">StoryDiff (NeurIPS 2024)</button>
+          <button class='btn-comp-method btn-sec1'  onclick="selectComparedMethod('iclora')">IC-LoRA (arxiv 2024)</button>
+        </div>
+        <div style="display: block;" id="comparison-video-div">
+          <table style="width: 100%; margin-top: 10px; border-collapse: collapse; border: 1px solid gray;">
+            <thead>
+              <tr>
+                <th style="width: 10%;"></th>
+                <th style="width: 60%;">Ours</th>
+                <th style="width: 40%;" id="comparison-caption-sec1">Baseline</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="vertical-align: center;">
+                  <p style="font-weight: bold;">Scene</p>
+                </td>
+                <td colspan="2"><p id="scene-description-sec1"></p></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: center;">
+                  <p style="font-weight: bold;">Location</p>
+                </td>
+                <td colspan="2"><p id="location-description-sec1"></p></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: center;">
+                  <p style="font-weight: bold;">Character</p>
+                </td>
+                <td colspan="2"><span id="character-description-sec1"></span></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: center;">
+                  <p style="font-weight: bold;">Shot Description <br> & Images</p>
+                </td>
+                <td style="vertical-align: top; text-align: center;">
+                  <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <div class="shot-text-container" id="comparison-shot-text-sec1" style="width:25%; grid-template-rows: repeat(4, 1fr); ">
+                      <div class="shot-text">[SHOT-1]</div>
+                      <div class="shot-text">[SHOT-2]</div>
+                      <div class="shot-text">[SHOT-3]</div>
+                      <div class="shot-text">[SHOT-4]</div>
+                    </div>
+                    <div style="width: 67%; display: flex; justify-content: center;">
+                      <img id="comparison-img1-sec1" src="images/ours_2701.jpg" style="height: 150px;"> 
+                      
+                    </div>
+                  </div>
+                </td>
+                <td style="padding: 8px; vertical-align: top; text-align: center;">
+                  <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <div style="width: 100%; display: flex; justify-content: center;">
+                      <img id="comparison-img2-sec1" src="images/baseline_2701.jpg" style="height: 150px;">
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Video Studio -->
+      <h2>B. Comparison with Video Studio (single-character).<button onclick="toggleCollapse('comparison-sec2')" style="background: none; border: none; cursor: pointer;" title="Click to collapse"><i class="fa fa-chevron-down" id="collapse-icon-comparison-sec2"></i></button></h2>
+      <div id="comparison-sec2" style="display: block;">
+        <div style="display: flex; align-items: center;">
+          <p style="margin-right: 10px; margin-bottom: 0px; margin-top: 0px;"><b>Example: </b></p>
+          <div class="btn-group btn-group-comp-video">
+            <select onchange="selectComparisonSec2(this.value)">
+              <option value="0">Example 1</option>
+              <option value="1">Example 2</option>
+              <option value="2">Example 3</option>
+              <option value="3">Example 4</option>
+              <option value="4">Example 5</option>
+              <option value="5">Example 6</option>
+              <option value="6">Example 7</option>
+              <option value="7">Example 8</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: block;" id="comparison-video-div">
+          <table style="width: 100%; margin-top: 10px; border-collapse: collapse; border: 1px solid gray;">
+            <thead>
+              <tr>
+                <th style="width: 10%;"></th>
+                <th style="width: 60%;">Ours</th>
+                <th style="width: 40%;" id="comparison-caption-sec2">Video Studio (ECCV 2024)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="vertical-align: center;">
+                  <p style="font-weight: bold;">Scene</p>
+                </td>
+                <td colspan="2"><p id="scene-description-sec2"></p></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: center;">
+                  <p style="font-weight: bold;">Location</p>
+                </td>
+                <td colspan="2"><p id="location-description-sec2"></p></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: center;">
+                  <p style="font-weight: bold;">Character</p>
+                </td>
+                <td colspan="2"><p id="character-description-sec2"></p></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: center;">
+                  <p style="font-weight: bold;">Shot Description <br> & Images</p>
+                </td>
+                <td style="vertical-align: top; text-align: center;">
+                  <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <div class="shot-text-container" id="comparison-shot-text-sec2" style="width:33%; grid-template-rows: repeat(4, 1fr); ">
+                      <div class="shot-text">[SHOT-1]</div>
+                      <div class="shot-text">[SHOT-2]</div>
+                      <div class="shot-text">[SHOT-3]</div>
+                      <div class="shot-text">[SHOT-4]</div>
+                    </div>
+                    <div style="width: 67%; display: flex; justify-content: center;">
+                      <img id="comparison-img1-sec2" src="images/ours_2701.jpg" style="height: 1200px;">
+                    </div>
+                  </div>
+                </td>
+                <td style="padding: 8px; vertical-align: top; text-align: center;">
+                  <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <div style="width: 100%; display: flex; justify-content: center;">
+                      <img id="comparison-img2-sec2" src="images/baseline_2701.jpg" style="height: 1200px;">
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h2>C. Comparison with LLM in shot planning.
+        <button onclick="toggleCollapse('comparison-sec3')" style="background: none; border: none; cursor: pointer;" title="Click to collapse">
+          <i class="fa fa-chevron-down" id="collapse-icon-comparison-sec3">
+          </i>
+        </button>
+      </h2>
+      <div id="comparison-sec3" style="display: block;">
+        <div style="display: flex; align-items: center;">
+          <p style="margin-right: 10px; margin-bottom: 0px; margin-top: 0px;"><b>Example: </b></p>
+          <div class="btn-group btn-group-comp-video">
+            <select onchange="selectComparisonSec3(this.value)">
+              <option value="0">Example 1</option>
+              <option value="1">Example 2</option>
+              <option value="2">Example 3</option>
+              <option value="3">Example 4</option>
+              <option value="4">Example 5</option>
+              <option value="5">Example 6</option>
+              <option value="6">Example 7</option>
+              <!-- <option value="7">Example 8</option>
+              <option value="8">Example 9</option>
+              <option value="9">Example 10</option>
+              <option value="10">Example 11</option>
+              <option value="11">Example 12</option>
+              <option value="12">Example 13</option>
+              <option value="13">Example 14</option>
+              <option value="14">Example 15</option>
+              <option value="15">Example 16</option>
+              <option value="16">Example 17</option>
+              <option value="17">Example 18</option>
+              <option value="18">Example 19</option>
+              <option value="19">Example 20</option> -->
+            </select>
+          </div>
+        </div>
+        <p><b>Compared method</b></p>
+        <div class="btn-group btn-group-comp">
+          <button class='btn-comp-method btn-sec3'  onclick="selectComparedMethodSec3('instruct')">Generic Instruction </button>
+          <button class='btn-comp-method btn-sec3'  onclick="selectComparedMethodSec3('retrieval')">Instruction only</button>
+        </div>
+        <div style="display: block;" id="comparison-video-div">
+          <table style="width: 100%; margin-top: 10px; border-collapse: collapse; border: 1px solid gray;">
+            <thead>
+              <tr>
+                <th style="width: 10%;"></th>
+                <th style="width: 45%;">Ours</th>
+                <th style="width: 45%;" id="comparison-caption-sec3">Baseline</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="vertical-align: center;">
+                  <p style="font-weight: bold;">Scene</p>
+                </td>
+                <td colspan="2"><p id="scene-description-sec3"></p></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;">
+                  <p style="font-weight: bold;">Location</p>
+                </td>
+                <td style="vertical-align: center;">
+                  <p id="location-description-sec3"></p>
+                </td>
+                <td style="vertical-align: center;">
+                  <p id="location-description-compared-sec3"></p>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: center;">
+                  <p style="font-weight: bold;">Character</p>
+                </td>
+                <td style="vertical-align: top;">
+                  <p id="character-description-sec3"></p>
+                </td>
+                <td style="vertical-align: top;">
+                  <p id="character-description-compared-sec3"></p>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: center;">
+                  <p style="font-weight: bold;">Shot Description <br> & Images</p>
+                </td>
+                <td style="vertical-align: top; text-align: center;">
+                  <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <div class="shot-text-container" id="comparison-shot-text-sec3" style="width:30%; grid-template-rows: repeat(4, 1fr); ">
+                      <div class="shot-text">[SHOT-1]</div>
+                      <div class="shot-text">[SHOT-2]</div>
+                      <div class="shot-text">[SHOT-3]</div>
+                      <div class="shot-text">[SHOT-4]</div>
+                    </div>
+                    <div style="width: 70%; display: flex; justify-content: center;">
+                      <img id="comparison-img1-sec3" src="images/ours_2701.jpg" style="height: 1200px;">
+                      <!-- <div style="text-align: center;">Ours</div> -->
+                    </div>
+                  </div>
+                </td>
+                <td style="padding: 8px; vertical-align: top; text-align: center;">
+                  <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <div class="shot-text-container" id="comparison-shot-text-compared-sec3" style="width:30%; grid-template-rows: repeat(4, 1fr); ">
+                      <div class="shot-text">[SHOT-1]</div>
+                      <div class="shot-text">[SHOT-2]</div>
+                      <div class="shot-text">[SHOT-3]</div>
+                      <div class="shot-text">[SHOT-4]</div>
+                    </div>
+                    <div style="width: 70%; display: flex; justify-content: center;">
+                      <img id="comparison-img2-sec3" src="images/ours_2701.jpg" style="height: 1200px;">
+                      <!-- <div style="text-align: center;">Ours</div> -->
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.js"
+      integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+      crossorigin="anonymous"></script>
+      <script src="data.js"></script>
+      <script src="js/interactive_demo2.js"></script>
+    <script src="dist/cocoen.js"></script>
+    <script src="dist/glide.min.js"></script>
+    <script>
+      Cocoen.parse(document.body);
+    </script>
+  </body>
+</html>
